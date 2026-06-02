@@ -5,7 +5,10 @@ if (!process.env.DATABASE_URL) {
     throw new Error("DATABASE_URL environment variable is required");
 }
 
-const db = new SQL(process.env.DATABASE_URL!, {
+const databaseUrl = new URL(process.env.DATABASE_URL);
+databaseUrl.searchParams.delete("schema");
+
+const db = new SQL(databaseUrl.toString(), {
     ssl: true,
     max: 5,
     idleTimeout: 30,

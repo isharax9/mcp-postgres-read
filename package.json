@@ -12,7 +12,8 @@
   "scripts": {
     "build": "bun build --compile --minify --sourcemap ./index.ts --outfile postgres-read",
     "build:macos": "bun build --compile --minify --sourcemap --target=bun-darwin-arm64 ./index.ts --outfile postgres-read",
-    "test": "bun run test_verification.ts"
+    "test": "bun run test_verification.ts",
+    "test:smoke": "bun run mcp_smoke_test.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0"

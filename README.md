@@ -29,6 +29,20 @@ A Model Context Protocol (MCP) server that provides read-only access to a Postgr
 - **`describe_table`**: Get schema details for a specific table.
 - **`query`**: Execute a read-only SQL query (`SELECT` only).
 
+## Quick Verification
+
+Run the basic MCP handshake check:
+
+```bash
+bun --env-file=.env run test
+```
+
+Run the fuller smoke test for tool discovery, exact user lookup, last winning bet, and game name:
+
+```bash
+bun --env-file=.env run test:smoke -- ishara.lakshitha.eds@gmail.com
+```
+
 ## Troubleshooting
 
 ### macOS: "App is damaged and can't be opened"
