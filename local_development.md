@@ -5,7 +5,7 @@ This guide describes how to set up the `postgres-read` MCP server for local deve
 ## Prerequisites
 
 - [Bun](https://bun.sh) (v1.2.0 or later)
-- PostgreSQL database
+- One or more PostgreSQL databases
 - Git
 
 ## Setup Instructions
@@ -31,13 +31,18 @@ This guide describes how to set up the `postgres-read` MCP server for local deve
     touch .env
     ```
 
-    Add your PostgreSQL connection string to `.env`:
+    Add one or more PostgreSQL connection strings to `.env`:
 
     ```env
-    DATABASE_URL=postgresql://user:password@localhost:5432/dbname?sslmode=require
+    DATABASE_URL_PROD=postgresql://user:password@localhost:5432/prod_db?sslmode=require
+    DATABASE_URL_ANALYTICS_DEV=postgresql://user:password@localhost:5432/analytics_dev?sslmode=require
+    DATABASE_URL_BILLING_QA=postgresql://user:password@localhost:5432/billing_qa?sslmode=require
+    DATABASE_URL_PARTNER_SANDBOX=postgresql://user:password@localhost:5432/partner_sandbox?sslmode=require
     ```
 
-    > **Note:** Ensure your database is running and accessible.
+    `DATABASE_URL` also works as a fallback for `prod` if you want to keep the old setup. Any variable matching `DATABASE_URL_<TARGET>` becomes a database target, and `<TARGET>` is normalized to lowercase snake_case for tool names.
+
+    > **Note:** Ensure at least one configured database is running and accessible.
 
 ## Running Locally
 

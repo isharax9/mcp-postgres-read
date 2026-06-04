@@ -1,5 +1,4 @@
-
-import db from "./db.js";
+import { getDb, type DatabaseTarget } from "./db.js";
 
 const BLOCKED_PATTERNS = [
     /^\s*(INSERT|UPDATE|DELETE|DROP|TRUNCATE|ALTER|CREATE|REPLACE|MERGE|GRANT|REVOKE|COPY)\s/i,
@@ -21,8 +20,8 @@ export function validateQuery(query: string): { valid: boolean; reason?: string 
     return { valid: true };
 }
 
-export async function safeQuery(query: string) {
+export async function safeQuery(target: DatabaseTarget, query: string) {
     const check = validateQuery(query);
     if (!check.valid) throw new Error(`Query rejected: ${check.reason}`);
-    return await db.unsafe(query);
+    return await getDb(target).unsafe(query);
 }

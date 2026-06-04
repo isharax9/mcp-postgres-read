@@ -1,9 +1,16 @@
 
 import { spawn } from "child_process";
 
+const hasAnyDatabaseUrl = Boolean(
+    process.env.DATABASE_URL ||
+    process.env.DATABASE_URL_PROD ||
+    Object.entries(process.env).some(([envKey, envValue]) =>
+        envKey.startsWith("DATABASE_URL_") && Boolean(envValue?.trim())
+    )
+);
 
-if (!process.env.DATABASE_URL) {
-    console.error("Error: DATABASE_URL environment variable is not set.");
+if (!hasAnyDatabaseUrl) {
+    console.error("Error: no database environment variable is set.");
     console.error("Please create a .env file in the root directory. You can copy .env.example:");
     console.error("  cp .env.example .env");
     console.error("Then edit .env with your PostgreSQL connection details.");

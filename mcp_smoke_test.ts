@@ -14,8 +14,10 @@ type JsonRpcResponse = {
 const DEFAULT_EMAIL = "ishara.lakshitha.eds@gmail.com";
 const email = process.argv[2] ?? DEFAULT_EMAIL;
 
-if (!process.env.DATABASE_URL) {
-    console.error("Error: DATABASE_URL environment variable is not set.");
+const prodDatabaseUrl = process.env.DATABASE_URL_PROD ?? process.env.DATABASE_URL;
+
+if (!prodDatabaseUrl) {
+    console.error("Error: DATABASE_URL_PROD or DATABASE_URL environment variable is not set.");
     console.error("Run with: bun --env-file=.env run mcp_smoke_test.ts [email]");
     process.exit(1);
 }
@@ -37,7 +39,7 @@ const queries = [
         id: 3,
         method: "tools/call",
         params: {
-            name: "query",
+            name: "query_prod",
             arguments: {
                 sql: `
 SELECT id, email, "userName", status, "lastLogin"
@@ -53,7 +55,7 @@ LIMIT 1
         id: 4,
         method: "tools/call",
         params: {
-            name: "query",
+            name: "query_prod",
             arguments: {
                 sql: `
 SELECT
@@ -82,7 +84,7 @@ LIMIT 1
         id: 5,
         method: "tools/call",
         params: {
-            name: "query",
+            name: "query_prod",
             arguments: {
                 sql: `
 SELECT g.id, g.name, g.category
