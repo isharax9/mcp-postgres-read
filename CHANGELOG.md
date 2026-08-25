@@ -4,6 +4,28 @@ All notable changes to this project are documented in this file. Releases follow
 
 The next planned release is **v2.0.0**.
 
+## [2.0.0](https://github.com/isharax9/mcp-postgres-read/compare/v1.0.2...v2.0.0) (2026-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* release assets now use platform-specific archive names instead of the legacy single macOS artifact.
+
+### Features
+
+* add cross-platform releases and dashboard ([989039d](https://github.com/isharax9/mcp-postgres-read/commit/989039df4d05377f571523a5c83b338ebedfaa8d))
+* add MCP smoke test workflow ([77198b3](https://github.com/isharax9/mcp-postgres-read/commit/77198b38a77aad3b0b57f41cbbd450e1a3712108))
+* enhance multi-database support and update documentation ([1ad36d6](https://github.com/isharax9/mcp-postgres-read/commit/1ad36d696514fefa8537856bbb7156aed2dcf695))
+* implement environment variable management and update documentation ([3e32a3a](https://github.com/isharax9/mcp-postgres-read/commit/3e32a3adf13a535bb12fbdb6991c6ee60f9ce5cf))
+* setup ci/cd pipeline with semantic release ([63d5f64](https://github.com/isharax9/mcp-postgres-read/commit/63d5f64d44df4a5499a87727be904df44cfb8902))
+
+
+### Bug Fixes
+
+* **ci:** use Windows release name in native verification ([5b35b20](https://github.com/isharax9/mcp-postgres-read/commit/5b35b202aaefd7bd98eb5418c4cfeaa5285d141b))
+* update artifact name and docs ([fa458eb](https://github.com/isharax9/mcp-postgres-read/commit/fa458eb69782cd0653883aa53a8d30d5292ddefc))
+* update artifact to macos build ([aeaa1fc](https://github.com/isharax9/mcp-postgres-read/commit/aeaa1fc2c12001683c3b82821ac503a790fe0f26))
+
 ## [Unreleased]
 
 ### Added
