@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file. Releases follow
 
 The next planned release is **v2.0.0**.
 
+## [2.0.1](https://github.com/isharax9/mcp-postgres-read/compare/v2.0.0...v2.0.1) (2026-08-25)
+
+
+### Bug Fixes
+
+* **release:** checkout before publishing assets ([7ade069](https://github.com/isharax9/mcp-postgres-read/commit/7ade069079f94f072808bd79023e1dc793536ce9))
+* **release:** checkout before publishing assets ([c5dc996](https://github.com/isharax9/mcp-postgres-read/commit/c5dc996b364b6e0254ba253deb511844c4474bab))
+
 ## [2.0.0](https://github.com/isharax9/mcp-postgres-read/compare/v1.0.2...v2.0.0) (2026-08-25)
 
 
