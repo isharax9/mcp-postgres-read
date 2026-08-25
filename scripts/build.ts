@@ -1,5 +1,6 @@
 import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { nativeTargetName } from "./platform.js";
 
 type BuildTarget = {
     bunTarget: string;
@@ -17,12 +18,7 @@ const targets = {
 type TargetName = keyof typeof targets;
 
 function currentTarget(): TargetName {
-    const platform = process.platform === "darwin"
-        ? "macos"
-        : process.platform === "win32"
-            ? "windows"
-            : process.platform;
-    const target = `${platform}-${process.arch}`;
+    const target = nativeTargetName(process.platform, process.arch);
     if (!(target in targets)) {
         throw new Error(`Unsupported build platform: ${process.platform}/${process.arch}`);
     }
