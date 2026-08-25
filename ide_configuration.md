@@ -43,7 +43,7 @@ Use this method if you have the source code checked out locally and want to make
 
 If the repository contains a project-root `.env`, its non-empty database values take precedence over this `env` block. Keep the `env` block to provide fallback values when a variable is absent, empty, or commented out in `.env`.
 
-### Option 2: Running from Downloaded Build Artifact (Recommended for Use)
+### Option 2: Running from a Downloaded Build Artifact (Recommended for Use)
 
 Use this method if you downloaded a pre-built binary from the GitHub Releases page.
 
@@ -53,7 +53,7 @@ Use this method if you downloaded a pre-built binary from the GitHub Releases pa
 {
   "mcpServers": {
     "postgres-read": {
-      "command": "/absolute/path/to/downloaded/postgres-read-macos-arm64",
+      "command": "/absolute/path/to/downloaded/postgres-read-<platform>-<architecture>",
       "args": [],
       "env": {
         "DATABASE_URL": "postgresql://user:password@localhost:5432/dbname?sslmode=require"
@@ -67,12 +67,19 @@ Use this method if you downloaded a pre-built binary from the GitHub Releases pa
 
 
 > **Note:**
-> 1. Replace `/absolute/path/to/downloaded/postgres-read-macos-arm64` with the actual path to the executable.
+> 1. Replace the command with the extracted Windows, Linux, or macOS executable path. Windows paths should point to `postgres-read-windows-x64.exe`.
 > 2. Ensure the file has execute permissions (`chmod +x postgres-read-macos-arm64`).
 > 3. On macOS, you may need to allow the executable to run in System Settings > Privacy & Security if it's blocked.
 
 ## Environment Variables
 
-The server requires the following environment variable:
+The server requires at least one database environment variable:
 
-- `DATABASE_URL`: A valid PostgreSQL connection string (e.g., `postgresql://user:password@host:port/dbname`).
+- `DATABASE_URL_PROD` or legacy `DATABASE_URL` configures `prod`.
+- Any `DATABASE_URL_<TARGET>` configures a named target such as `dev`, `qa`, or `analytics`.
+
+When a `.env` file is placed beside the entrypoint or standalone executable, its active database values take precedence over this MCP-client `env` block.
+
+## Dashboard Mode
+
+The same executable can be launched manually with `--ui` to open its local status dashboard. This is a separate mode and must not be added to the MCP client's `args`, because MCP clients require the default stdio mode.

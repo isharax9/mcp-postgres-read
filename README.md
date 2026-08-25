@@ -23,6 +23,8 @@ A Model Context Protocol (MCP) server that provides read-only access to one or m
 - **Schema Inspection**: List tables and view table definitions.
 - **Secure**: Uses environment variables for connection strings.
 - **Fast**: Built on the [Bun](https://bun.sh) runtime.
+- **Cross-platform**: Standalone releases for Windows, Ubuntu/Linux, and macOS.
+- **Local Dashboard**: Optional browser UI for connection health without exposing credentials.
 
 ## Environment Variables
 
@@ -80,6 +82,39 @@ Run the fuller smoke test for tool discovery and sample `prod` queries:
 bun --env-file=.env run test:smoke -- ishara.lakshitha.eds@gmail.com
 ```
 
+## Local Dashboard
+
+The source server and every standalone executable include the same localhost-only dashboard:
+
+```bash
+# From source
+bun run index.ts --ui
+
+# From a release build (Windows)
+postgres-read-windows-x64.exe --ui
+
+# From a release build (macOS or Linux)
+./postgres-read-macos-arm64 --ui
+```
+
+The dashboard opens at `http://127.0.0.1:8787`, lists configured target names, and runs only `SELECT 1` connectivity checks. Use `--no-open` to prevent automatic browser launch or `--port 9000` to choose another local port.
+
+Do not add `--ui` to an MCP client configuration. The default mode remains the stdio MCP server.
+
+## Release Downloads
+
+GitHub Releases provide these checksummed archives:
+
+- `postgres-read-windows-x64.zip`
+- `postgres-read-linux-x64.tar.gz`
+- `postgres-read-linux-arm64.tar.gz`
+- `postgres-read-macos-x64.tar.gz` (Intel)
+- `postgres-read-macos-arm64.tar.gz` (Apple Silicon)
+
+Place `.env` beside the extracted executable when you want file-based credentials. MCP-client environment variables remain available as fallbacks.
+
+Release history is recorded in [CHANGELOG.md](./CHANGELOG.md), with highlights for the next release in [RELEASE_NOTES.md](./RELEASE_NOTES.md).
+
 ## Troubleshooting
 
 ### macOS: "App is damaged and can't be opened"
@@ -87,4 +122,10 @@ If you see this error when running the binary on macOS, it's due to Gatekeeper b
 
 ```bash
 xattr -d com.apple.quarantine postgres-read-macos-arm64
+```
+
+On macOS and Linux, ensure the extracted binary is executable:
+
+```bash
+chmod +x postgres-read-*
 ```

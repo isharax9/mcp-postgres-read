@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "index.ts",
+    "src/**/*.ts",
+    "scripts/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "graphify-out",
+    "mcp_smoke_test.ts",
+    "test_verification.ts"
+  ]
+}

@@ -1,5 +1,6 @@
 {
   "name": "postgres-read",
+  "version": "1.0.2",
   "module": "index.ts",
   "type": "module",
   "private": true,
@@ -10,33 +11,18 @@
     "typescript": "^5"
   },
   "scripts": {
-    "build": "bun build --compile --minify --sourcemap ./index.ts --outfile postgres-read",
-    "build:macos": "bun build --compile --minify --sourcemap --target=bun-darwin-arm64 ./index.ts --outfile postgres-read",
+    "build": "bun run scripts/build.ts",
+    "build:all": "bun run scripts/build.ts all",
+    "build:windows": "bun run scripts/build.ts windows-x64",
+    "build:linux": "bun run scripts/build.ts linux-x64 linux-arm64",
+    "build:macos": "bun run scripts/build.ts macos-x64 macos-arm64",
+    "build:target": "bun run scripts/build.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test": "bun run test_verification.ts",
+    "test:unit": "bun test ./tests",
     "test:smoke": "bun run mcp_smoke_test.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/github",
-        {
-          "assets": [
-            {
-              "path": "postgres-read",
-              "name": "postgres-read-macos-arm64",
-              "label": "postgres-read-macos-arm64"
-            }
-          ]
-        }
-      ]
-    ]
   }
 }
