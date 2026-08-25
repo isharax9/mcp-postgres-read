@@ -1,33 +1,43 @@
 
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { TOOLS, handleCallTool } from "./src/tools.js";
+function printHelp() {
+    console.log(`Postgres Read MCP
 
-// --- MCP Server ---
+Usage:
+  postgres-read                 Start the stdio MCP server
+  postgres-read --ui            Start the local status dashboard
+  postgres-read --ui --port 8787
+  postgres-read --ui --no-open  Start without opening a browser
+  postgres-read --help          Show this help
+`);
+}
 
-const server = new Server(
-    { name: "postgres-readonly-mcp", version: "1.0.0" },
-    { capabilities: { tools: {} } }
-);
+function readPort(args: string[]) {
+    const inlinePort = args.find((arg) => arg.startsWith("--port="))?.split("=", 2)[1];
+    const portFlagIndex = args.indexOf("--port");
+    const rawPort = inlinePort ?? (portFlagIndex >= 0 ? args[portFlagIndex + 1] : undefined) ?? "8787";
+    const port = Number(rawPort);
 
-server.setRequestHandler(ListToolsRequestSchema, async () => ({
-    tools: TOOLS
-}));
-
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-    const { name, arguments: args } = request.params;
-
-    try {
-        return await handleCallTool(name, args);
-    } catch (err: any) {
-        return {
-            content: [{ type: "text", text: `Error: ${err.message}` }],
-            isError: true
-        };
+    if (!Number.isInteger(port) || port < 0 || port > 65535) {
+        throw new Error(`Invalid port: ${rawPort}`);
     }
-});
 
-const transport = new StdioServerTransport();
-await server.connect(transport);
-console.error("Postgres MCP server running");
+    return port;
+}
+
+const args = process.argv.slice(2);
+
+if (args.includes("--help") || args.includes("-h")) {
+    printHelp();
+} else if (args.includes("--ui")) {
+    const { startDashboard } = await import("./src/ui.js");
+    const dashboard = startDashboard({
+        port: readPort(args),
+        openBrowser: !args.includes("--no-open"),
+    });
+
+    console.log(`Postgres Read dashboard: ${dashboard.url}`);
+    console.log("Press Ctrl+C to stop.");
+} else {
+    const { startMcpServer } = await import("./src/mcp-server.js");
+    await startMcpServer();
+}

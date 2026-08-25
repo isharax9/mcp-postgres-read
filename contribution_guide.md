@@ -17,9 +17,12 @@ Before you start, please ensure you have set up your local development environme
 4.  **Make Changes**: Implement your changes. Please follow the existing coding style and conventions.
 5.  **Test Your Changes**: Verify your changes locally.
     ```bash
-    bun run test
+    bun run typecheck
+    bun run test:unit
+    bun run build
+    bun run scripts/verify-native-build.ts
     ```
-    Ensure that the tests pass and verify that your changes didn't break existing functionality.
+    Run `bun run test` as well when valid database credentials are available. Ensure that the checks pass and verify that your changes didn't break existing functionality.
 6.  **Commit Changes**: Commit your changes with clear and descriptive commit messages.
     ```bash
     git commit -m "feat: add descriptive message about your changes"
@@ -30,6 +33,10 @@ Before you start, please ensure you have set up your local development environme
     - `docs:`, `chore:`, `style:`, `refactor:`, `perf:`, `test:` for other changes (no release trigger by default)
 
 7.  **Push and Open a Pull Request**: Push your branch to your fork and open a pull request against the `main` branch of the original repository.
+
+## Releases
+
+Release Please reads Conventional Commits on `main`, opens or updates a release pull request, maintains `CHANGELOG.md`, and creates the version tag and GitHub Release when that pull request is merged. The release workflow then attaches Windows, Linux, and macOS archives plus SHA-256 checksums. See [docs/releasing.md](./docs/releasing.md) for the full process.
 
 ## Reporting Issues
 

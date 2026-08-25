@@ -58,13 +58,31 @@ The server communicates via `stdin`/`stdout`. You won't see typical log output u
 
 ## Building the Project
 
-To build a standalone executable:
+To build a standalone executable for the current operating system and CPU:
 
 ```bash
 bun run build
 ```
 
-This will create a `postgres-read` binary in the current directory.
+Build output is written to `dist/`. To cross-compile every supported release target:
+
+```bash
+bun run build:all
+```
+
+You can also build one target with `bun run scripts/build.ts <target>`, where `<target>` is `windows-x64`, `linux-x64`, `linux-arm64`, `macos-x64`, or `macos-arm64`.
+
+Platform shortcuts are available as `bun run build:windows`, `bun run build:linux`, and `bun run build:macos`.
+
+## Running the Dashboard
+
+Start the cross-platform local UI from source:
+
+```bash
+bun run index.ts --ui
+```
+
+The default address is `http://127.0.0.1:8787`. Use `--port <number>` to change it or `--no-open` when running without a desktop browser.
 
 ## Testing
 
@@ -78,3 +96,10 @@ bun run test
 ```
 
 This script simulates an MCP client, initializing the connection and listing available tools.
+
+Database-independent checks used by CI are also available locally:
+
+```bash
+bun run typecheck
+bun run test:unit
+```
