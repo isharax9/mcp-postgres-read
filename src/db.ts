@@ -1,4 +1,9 @@
 import { SQL } from "bun";
+import {
+    getFirstEnvironmentValue,
+    getPreferredEnvironmentValue,
+    readProjectEnvironment,
+} from "./environment.js";
 
 export type DatabaseTarget = string;
 
@@ -28,13 +33,18 @@ function normalizeTargetName(rawTargetName: string) {
 
 function resolveConfiguredDatabases() {
     const configured = new Map<DatabaseTarget, SQL>();
+    const projectEnvironment = readProjectEnvironment();
+    const environmentKeys = new Set([
+        ...Object.keys(process.env),
+        ...Object.keys(projectEnvironment),
+    ]);
 
-    for (const [envKey, envValue] of Object.entries(process.env)) {
+    for (const envKey of environmentKeys) {
         if (!envKey.startsWith(DATABASE_URL_PREFIX) || envKey === "DATABASE_URL_PROD") {
             continue;
         }
 
-        const connectionString = envValue?.trim();
+        const connectionString = getPreferredEnvironmentValue(envKey, projectEnvironment);
         if (!connectionString) {
             continue;
         }
@@ -49,7 +59,10 @@ function resolveConfiguredDatabases() {
         configured.set(normalizedTarget, createConnection(connectionString));
     }
 
-    const prodDatabaseUrl = process.env.DATABASE_URL_PROD?.trim() || process.env.DATABASE_URL?.trim();
+    const prodEnvironmentKeys = ["DATABASE_URL_PROD", "DATABASE_URL"];
+    const prodDatabaseUrl =
+        getFirstEnvironmentValue(prodEnvironmentKeys, projectEnvironment) ||
+        getFirstEnvironmentValue(prodEnvironmentKeys, process.env);
     if (prodDatabaseUrl) {
         configured.set("prod", createConnection(prodDatabaseUrl));
     }

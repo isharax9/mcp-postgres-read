@@ -42,6 +42,8 @@ This guide describes how to set up the `postgres-read` MCP server for local deve
 
     `DATABASE_URL` also works as a fallback for `prod` if you want to keep the old setup. Any variable matching `DATABASE_URL_<TARGET>` becomes a database target, and `<TARGET>` is normalized to lowercase snake_case for tool names.
 
+    Values in this project-root `.env` file take precedence over values injected by an MCP client's `env` configuration. If a variable is missing, empty, or commented out here, the server falls back to the corresponding MCP-provided environment value.
+
     > **Note:** Ensure at least one configured database is running and accessible.
 
 ## Running Locally

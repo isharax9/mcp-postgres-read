@@ -41,6 +41,8 @@ Use this method if you have the source code checked out locally and want to make
 
 > **Note:** Replace `/absolute/path/to/your/postgres-read/index.ts` with the actual path to your `index.ts` file.
 
+If the repository contains a project-root `.env`, its non-empty database values take precedence over this `env` block. Keep the `env` block to provide fallback values when a variable is absent, empty, or commented out in `.env`.
+
 ### Option 2: Running from Downloaded Build Artifact (Recommended for Use)
 
 Use this method if you downloaded a pre-built binary from the GitHub Releases page.

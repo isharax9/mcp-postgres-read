@@ -37,6 +37,8 @@ DATABASE_URL_PARTNER_SANDBOX=postgresql://user:password@host:5432/partner_sandbo
 
 `DATABASE_URL` is still supported as a backward-compatible fallback for `prod`.
 
+The project-root `.env` file has precedence over variables supplied by the MCP client. Non-empty `.env` database values are used first; missing, empty, or commented-out values fall back to the process environment (for example, the `env` block in `mcp.json`). For `prod`, each source checks `DATABASE_URL_PROD` before the legacy `DATABASE_URL` fallback.
+
 Each `DATABASE_URL_<TARGET>` variable becomes a tool target named from `<TARGET>` after normalization:
 
 - Uppercase becomes lowercase
